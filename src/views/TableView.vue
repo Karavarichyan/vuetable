@@ -323,7 +323,7 @@ const showTables = () => {
                 />
                 <ButtonComponent
                   :onClick="() => removeRowFromColumn(column, rowIndex)"
-                  buttonText="Remove Row"
+                  buttonText="Remove"
                   buttonClass="bg-red-500 text-white px-2 py-1 rounded text-xs"
                 />
               </div>

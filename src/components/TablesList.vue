@@ -179,7 +179,7 @@ const removeRowFromColumn = (tableIndex, columnName, rowIndex) => {
                   <ButtonComponent
                     v-if="editingTables.includes(index)"
                     :onClick="() => removeRowFromColumn(index, column, rowIndex)"
-                    buttonText="Remove Row"
+                    buttonText="Remove "
                     buttonClass="bg-red-500 text-white px-2 py-1 rounded text-xs"
                   />
                 </div>

@@ -1,12 +1,8 @@
-// tailwind.config.js
 module.exports = {
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  darkMode: false, // or 'media' or 'class'
+  content: ['./src/**/*.{vue,js,ts,jsx,tsx}', './public/index.html'],
+  darkMode: 'media', // Удалите, если тёмный режим не нужен
   theme: {
     extend: {},
   },
-  variants: {
-    extend: {},
-  },
   plugins: [],
-}
+};
