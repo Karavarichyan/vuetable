@@ -88,7 +88,6 @@ const goToCreateTable = () => {
   </div>
 </template> -->
 
-
 <script setup>
 import { useTableStore } from '@/stores/tableStore';
 import { ref } from 'vue';
@@ -109,20 +108,18 @@ const saveChanges = (index) => {
   editingTables.value = editingTables.value.filter(i => i !== index);
 };
 
+const deleteTable = (index) => {
+  if (confirm('Are you sure you want to delete this table? This action cannot be undone.')) {
+    tableStore.tables.splice(index, 1);
+  }
+};
+
 const goToHome = () => {
   router.push('/');
 };
 
 const goToCreateTable = () => {
   router.push('/table');
-};
-
-const addRowToColumn = (tableIndex, columnName) => {
-  tableStore.tables[tableIndex].rows[columnName].push('');
-};
-
-const removeRowFromColumn = (tableIndex, columnName, rowIndex) => {
-  tableStore.tables[tableIndex].rows[columnName].splice(rowIndex, 1);
 };
 </script>
 
@@ -157,33 +154,13 @@ const removeRowFromColumn = (tableIndex, columnName, rowIndex) => {
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr v-for="(row, rowIndex) in table.rows[table.columns[0]] || []" :key="rowIndex">
             <td v-for="column in table.columns" :key="column" class="border p-2">
-              <div class="flex flex-col space-y-2">
-                <ButtonComponent
-                  v-if="editingTables.includes(index)"
-                  :onClick="() => addRowToColumn(index, column)"
-                  buttonText="Add Row"
-                  buttonClass="bg-green-500 text-white px-2 py-1 rounded"
-                />
-                <div
-                  v-for="(row, rowIndex) in table.rows[column]"
-                  :key="rowIndex"
-                  class="flex items-center space-x-2"
-                >
-                  <input
-                    v-model="table.rows[column][rowIndex]"
-                    class="w-full p-1 border rounded"
-                    :disabled="!editingTables.includes(index)"
-                  />
-                  <ButtonComponent
-                    v-if="editingTables.includes(index)"
-                    :onClick="() => removeRowFromColumn(index, column, rowIndex)"
-                    buttonText="Remove "
-                    buttonClass="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                  />
-                </div>
-              </div>
+              <input
+                v-model="table.rows[column][rowIndex]"
+                class="w-full p-1 border rounded"
+                :disabled="!editingTables.includes(index)"
+              />
             </td>
           </tr>
         </tbody>
@@ -201,6 +178,11 @@ const removeRowFromColumn = (tableIndex, columnName, rowIndex) => {
           :onClick="() => saveChanges(index)"
           buttonText="Save Changes"
           buttonClass="bg-green-500 text-white px-4 py-2 rounded"
+        />
+        <ButtonComponent
+          :onClick="() => deleteTable(index)"
+          buttonText="Delete Table"
+          buttonClass="bg-red-500 text-white px-4 py-2 rounded"
         />
       </div>
     </div>
